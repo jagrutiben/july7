@@ -1,0 +1,158 @@
+REM   Script: Session 02
+REM   data
+
+create table dept( 
+deptno number(2,0), 
+dname varchar2(14), 
+loc varchar2(13), 
+constraint pk_dept primary key (deptno) 
+);
+
+insert into dept 
+values(20, 'RESEARCH', 'DALLAS');
+
+insert into dept 
+values(30, 'SALES', 'CHICAGO');
+
+insert into dept 
+values(40, 'OPERATIONS', 'BOSTON');
+
+select * from dept;
+
+create table emp ( 
+empno number(4,0), 
+ename varchar2(10), 
+job varchar2(9), 
+mgr number(4,0), 
+hiredate date, 
+sal number(7,2), 
+comm number(7,2), 
+deptno number(2,0), 
+constraint pk_emp primary key (empno), 
+constraint fk_deptno foreign key (deptno) references dept (deptno) 
+);
+
+insert into emp 
+values( 7698, 'BLAKE', 'MANAGER', 7839, 
+to_date('1-5-1981','dd-mm-yyyy'), 
+2850, null, 30 
+);
+
+insert into emp 
+values( 7566, 'JONES', 'MANAGER', 7839, 
+to_date('2-4-1981','dd-mm-yyyy'), 
+2975, null, 20 
+);
+
+insert into emp 
+values( 
+7788, 'SCOTT', 'ANALYST', 7566, 
+to_date('13-JUL-87','dd-mm-rr') - 85, 
+3000, null, 20 
+);
+
+insert into emp 
+values( 
+7902, 'FORD', 'ANALYST', 7566, 
+to_date('3-12-1981','dd-mm-yyyy'), 
+3000, null, 20 
+);
+
+insert into emp 
+values( 
+7369, 'SMITH', 'CLERK', 7902, 
+to_date('17-12-1980','dd-mm-yyyy'), 
+800, null, 20 
+);
+
+insert into emp 
+values( 
+7499, 'ALLEN', 'SALESMAN', 7698, 
+to_date('20-2-1981','dd-mm-yyyy'), 
+1600, 300, 30 
+);
+
+insert into emp 
+values( 
+7521, 'WARD', 'SALESMAN', 7698, 
+to_date('22-2-1981','dd-mm-yyyy'), 
+1250, 500, 30 
+);
+
+insert into emp 
+values( 
+7654, 'MARTIN', 'SALESMAN', 7698, 
+to_date('28-9-1981','dd-mm-yyyy'), 
+1250, 1400, 30 
+);
+
+insert into emp 
+values( 
+7844, 'TURNER', 'SALESMAN', 7698, 
+to_date('8-9-1981','dd-mm-yyyy'), 
+1500, 0, 30 
+);
+
+insert into emp 
+values( 
+7876, 'ADAMS', 'CLERK', 7788, 
+to_date('13-JUL-87', 'dd-mm-rr') - 51, 
+1100, null, 20 
+);
+
+insert into emp 
+values( 
+7900, 'JAMES', 'CLERK', 7698, 
+to_date('3-12-1981','dd-mm-yyyy'), 
+950, null, 30 
+);
+
+insert into emp 
+values(7839, 'KING', 'PRESIDENT', null, 
+to_date('17-11-1981','dd-mm-yyyy'), 
+5000, null, 20 
+);
+
+insert into emp 
+values(7782, 'CLARK', 'MANAGER', 7839, 
+to_date('9-6-1981','dd-mm-yyyy'), 
+2450, null, 30 
+);
+
+insert into emp 
+values( 
+7934, 'MILLER', 'CLERK', 7782, 
+to_date('23-1-1982','dd-mm-yyyy'), 
+1300, null, 20 
+);
+
+select * from emp;
+
+select*from emp order by sal asc;
+
+select*from emp where hiredate<('01-jan-81');
+
+select*from emp where job='CLERK' or job='ANALYST'order by job desc;
+
+select* from emp where deptno=10 or deptno=20;
+
+select * from emp where length(ename)=5 and ename like 'S%H';
+
+select * from emp where 12* sal between 22000 and 45000;
+
+select*from emp where Comm> sal;
+
+select* from emp where job= 'CLERK' and deptno=20;
+
+select max(sal) from emp;
+
+select avg (sal) from emp where job='CLERK';
+
+select*from emp where ename like '%A%';
+
+select count(*) from emp where deptno;
+
+select d.deptno, round(avg(nvl2(e1.comm, e1.sal+e1.comm, e1.sal))) avg, 
+e2.ename from emp e1, emp e2, dept d where d.deptno =e1.deptno and d.deptno = 
+e2.deptno group by d.deptno, e2.ename;
+
